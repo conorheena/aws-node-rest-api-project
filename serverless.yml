@@ -7,6 +7,12 @@ provider:
   runtime: nodejs12.x
   lambdaHashingVersion: "20201221"
   region: eu-west-2
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - arn:aws:dynamodb:eu-west-2:715946337841:table/TodoTable
 
 functions:
   hello:
@@ -15,6 +21,32 @@ functions:
       - http:
           path: /
           method: get
+  getTodos:
+    handler: src/getTodos.handler
+    events:
+      - http:
+          path: /todos
+          method: get
+  addTodo:
+    handler: src/addTodo.handler
+    events:
+      - http:
+          path: /todos
+          method: post
 
 plugins:
   - serverless-plugin-typescript
+
+resources:
+  Resources:
+    TodoTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: TodoTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
