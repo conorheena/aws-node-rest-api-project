@@ -27,6 +27,18 @@ functions:
       - http:
           path: /todos
           method: post
+  getTodo:
+    handler: src/getTodo.handler
+    events:
+      - http:
+          path: /todos/{id}
+          method: get
+  updateTodo:
+    handler: src/updateTodo.handler
+    events:
+      - http:
+          path: /todos/{id}
+          method: put
 
 plugins:
   - serverless-plugin-typescript

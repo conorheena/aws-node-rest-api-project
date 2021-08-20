@@ -1,5 +1,4 @@
 import { Handler } from "aws-lambda";
-import { v4 as uuid } from "uuid";
 import * as AWS from "aws-sdk";
 import middy from "@middy/core";
 import httpJsonBodyParser from "@middy/http-json-body-parser";
@@ -7,29 +6,26 @@ import httpJsonBodyParser from "@middy/http-json-body-parser";
 const baseHandler: Handler = async (event) => {
   const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
-  const { todo } = event.body;
-  const createdAt = new Date().toISOString();
-  const id = uuid();
-
-  const newTodo = {
-    id,
-    todo,
-    createdAt,
-    completed: false,
-  };
+  const { id } = event.pathParameters;
+  const { completed } = event.body;
 
   try {
     await dynamoDB
-      .put({
+      .update({
         TableName: "TodoTable",
-        Item: newTodo,
+        Key: { id },
+        UpdateExpression: "set completed = :completed",
+        ExpressionAttributeValues: {
+          ":completed": completed,
+        },
+        ReturnValues: "ALL_NEW",
       })
       .promise();
 
     return {
       statusCode: 200,
       body: JSON.stringify({
-        message: "todo created!",
+        message: "todo updated!",
       }),
     };
   } catch (error) {
@@ -37,6 +33,6 @@ const baseHandler: Handler = async (event) => {
   }
 };
 
-const handler = middy(baseHandler);
+const handler = middy(baseHandler).use(httpJsonBodyParser());
 
 export { handler };
