@@ -2,8 +2,6 @@ import { Handler } from "aws-lambda";
 import { v4 as uuid } from "uuid";
 import * as AWS from "aws-sdk";
 
-// TODO: Add serverless event body option: https://www.serverless.com/plugins/serverless-event-body-option
-
 export const handler: Handler = async (event) => {
   const dynamoDB = new AWS.DynamoDB.DocumentClient();
 

@@ -15,12 +15,6 @@ provider:
         - arn:aws:dynamodb:eu-west-2:715946337841:table/TodoTable
 
 functions:
-  hello:
-    handler: src/hello.handler
-    events:
-      - http:
-          path: /
-          method: get
   getTodos:
     handler: src/getTodos.handler
     events:
@@ -36,7 +30,7 @@ functions:
 
 plugins:
   - serverless-plugin-typescript
-  - serverless-event-body-option
+  - serverless-offline
 
 resources:
   Resources:
