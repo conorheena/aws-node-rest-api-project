@@ -37,6 +37,4 @@ const baseHandler: Handler = async (event) => {
   }
 };
 
-const handler = middy(baseHandler);
-
-export { handler };
+export const handler = middy(baseHandler).use(httpJsonBodyParser());
