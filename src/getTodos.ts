@@ -1,8 +1,8 @@
 import { Handler } from "aws-lambda";
-// import AWS from "aws-sdk";
+import * as AWS from "aws-sdk";
 
 export const handler: Handler = async () => {
-  //   const dynamoDB = new AWS.DynamoDB.DocumentClient();
+  const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
   return {
     statusCode: 200,
