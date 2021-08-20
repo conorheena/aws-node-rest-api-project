@@ -6,7 +6,7 @@ export const handler: Handler = async (event) => {
   const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
   const { todo } = JSON.parse(event.body);
-  const createdAt = new Date();
+  const createdAt = new Date().toISOString();
   const id = uuid();
 
   const newTodo = {
@@ -15,8 +15,6 @@ export const handler: Handler = async (event) => {
     createdAt,
     completed: false,
   };
-
-  console.log(newTodo);
 
   try {
     await dynamoDB
