@@ -16,6 +16,13 @@ const handler: Handler = async (event) => {
 
     const todo = results.Item;
 
+    if (!todo) {
+      return {
+        statusCode: 404,
+        body: JSON.stringify("todo not found"),
+      };
+    }
+
     return {
       statusCode: 200,
       body: JSON.stringify(todo),
