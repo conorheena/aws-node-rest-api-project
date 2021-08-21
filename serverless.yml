@@ -39,6 +39,12 @@ functions:
       - http:
           path: /todos/{id}
           method: put
+  deleteTodo:
+    handler: src/deleteTodo.handler
+    events:
+      - http:
+          path: /todos/{id}
+          method: delete
 
 plugins:
   - serverless-plugin-typescript
